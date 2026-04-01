@@ -1,13 +1,13 @@
 {
   "name": "1AGI",
-  "description": "Autonomous AI agent - sharp, direct, self-improving. Built on OpenClaw platform.",
+  "description": "AGI-style autonomous agent powered by arifOS constitutional kernel. Runs daily audits on arifOS MCP, executes tools safely, produces verifiable reports.",
   "version": "1.0.0",
-  "url": "https://waw.arif-fazil.com",
+  "url": "https://github.com/ariffazil/1AGI",
   "provider": {
-    "organization": "Arif",
+    "organization": "arifOS Ecosystem",
     "url": "https://arif-fazil.com"
   },
-  "documentationUrl": "https://waw.arif-fazil.com/docs",
+  "documentationUrl": "https://github.com/ariffazil/1AGI/blob/main/README.md",
   "capabilities": {
     "streaming": true,
     "pushNotifications": true,
@@ -82,5 +82,6 @@
       "type": "whatsapp"
     }
   ],
-  "iconUrl": "https://waw.arif-fazil.com/1agi-icon.png"
+  "iconUrl": "https://github.com/ariffazil/1AGI/blob/main/public/1agi-icon.png",
+  "tags": ["AI", "agent", "autonomous", "governed", "arifOS", "constitutional"]
 }
