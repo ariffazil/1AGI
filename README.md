@@ -71,6 +71,8 @@ User / Cron → 1AGI (this repo) → arifOS kernel (policy) → arifosmcp tools 
 | **Name** | 1AGI |
 | **Type** | Autonomous AGI-style agent (Estimate Only) |
 | **Platform** | OpenClaw Gateway |
+| **Runtime** | MaxClaw (MiniMax-powered) |
+| **Model** | MiniMax Auto (default) / MiniMax M2.7 (1M context) |
 | **Kernel** | arifOS MCP Server |
 | **Vibe** | Sharp, direct; prioritize clear verdicts and reversible actions over chit-chat |
 | **Symbol** | 🧠 |
@@ -305,26 +307,36 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for version history.
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Client    │────►│   Channel   │────►│    1AGI     │────►│ arifOS      │
-│ (Telegram,  │     │ (OpenClaw   │     │ (this repo) │     │ Kernel      │
-│  Discord,   │     │  Gateway)   │     │             │     │ (F1-F13)    │
-│  WhatsApp)  │     │             │     │             │     │             │
-└─────────────┘     └─────────────┘     └─────────────┘     └──────┬──────┘
-                                                                    │
-                                                                    ▼
-                                                       ┌─────────────────────┐
-                                                       │    arifosmcp        │
-                                                       │   (MCP Server)      │
-                                                       │  40 Tools / Qdrant   │
-                                                       └──────────┬──────────┘
-                                                                  │
-                                                                  ▼
-                                              ┌──────────────────────────────────┐
-                                              │         Outputs                 │
-                                              │ • REPORTS/*.md (audit)          │
-                                              │ • memory/*.md (logs)            │
-                                              │ • Verdicts (SEAL/VOID/HOLD)     │
-                                              └──────────────────────────────────┘
+│   Client    │────►│   Channel   │────►│   MaxClaw   │────►│ arifOS      │
+│ (Telegram, │     │ (Telegram, │     │ (Gateway +  │     │ Kernel      │
+│  Discord,   │     │  Discord,  │     │  1AGI Agent)│     │ (F1-F13)    │
+│  WhatsApp)  │     │  WhatsApp)  │     │             │     │             │
+└─────────────┘     └─────────────┘     └──────┬──────┘     └──────┬──────┘
+                                               │                   │
+                                               ▼                   ▼
+                                    ┌─────────────────────┐  ┌─────────────────────┐
+                                    │       1AGI           │  │    arifosmcp        │
+                                    │   (this repo)        │  │   (MCP Server)       │
+                                    │ • Session context    │  │  40 Tools / Qdrant   │
+                                    │ • AGENTS.md rules    │  └──────────┬──────────┘
+                                    │ • Memory (Hot)       │             │
+                                    └─────────────────────┘             │
+                                              │                         │
+                                              ▼                         ▼
+                                              │              ┌──────────────────────────────────┐
+                                              │              │         Outputs                 │
+                                              │              │ • REPORTS/*.md (audit)          │
+                                              │              │ • memory/*.md (logs)            │
+                                              │              │ • Verdicts (SEAL/VOID/HOLD)     │
+                                              │              └──────────────────────────────────┘
+                                              ▼
+                                    ┌──────────────────────────────────┐
+                                    │     OpenClaw Gateway            │
+                                    │   (MaxClaw Platform)            │
+                                    │ • mcporter (MCP management)     │
+                                    │ • cron jobs (daily audit)       │
+                                    │ • skill loading                 │
+                                    └──────────────────────────────────┘
 ```
 
 ### Component Responsibilities
@@ -332,11 +344,26 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for version history.
 | Component | What It Does |
 |-----------|--------------|
 | **Client** | Sends prompts via Telegram/Discord/WhatsApp |
-| **Channel** | OpenClaw Gateway — routes to 1AGI session |
-| **1AGI** | Parses intent, applies rules, calls kernel |
+| **Channel** | Message routing (Telegram, Discord, WhatsApp) |
+| **MaxClaw Gateway** | OpenClaw platform, session management |
+| **1AGI** | Parses intent, applies AGENTS.md rules, calls kernel |
 | **arifOS Kernel** | Constitutional checks (F1-F13), verdict |
 | **arifosmcp** | Tool execution, Qdrant memory |
+| **mcporter** | MCP server management (global CLI tool) |
 | **Outputs** | Reports, memory logs, verdicts |
+
+### Tool Flow
+
+```
+1. User sends message → Telegram/Discord/WhatsApp
+2. OpenClaw Gateway receives → Creates 1AGI session
+3. 1AGI reads: SOUL.md, USER.md, MEMORY.md (bootstrap)
+4. 1AGI checks: AGENTS.md (rules), HEARTBEAT.md (tasks)
+5. If MCP needed → calls arifosmcp via mcporter-managed connection
+6. arifOS kernel runs F1-F13 checks → Returns verdict
+7. 1AGI logs to memory/*.md and REPORTS/*.md
+8. Response sent back via same channel
+```
 
 ---
 
@@ -344,11 +371,21 @@ See [`CHANGELOG.md`](./CHANGELOG.md) for version history.
 
 | Aspect | Details |
 |--------|---------|
-| **Environment** | OpenClaw on VPS (srv5122.hstgr.cloud) |
-| **Runtime** | Node.js, MiniMax M2.7 (1M context) |
+| **Gateway** | OpenClaw (MaxClaw platform) |
+| **Runtime** | Node.js on VPS |
+| **Model** | MiniMax Auto (default) / MiniMax M2.7 (1M context) |
 | **MCP Connection** | https://arifosmcp.arif-fazil.com/mcp |
 | **Scheduling** | Daily at 10:00 UTC via HEARTBEAT.md |
 | **Health Monitoring** | curl https://arifosmcp.arif-fazil.com/health |
+| **Channels** | Telegram, Discord, WhatsApp |
+
+### OpenClaw/MaxClaw Configuration
+
+1AGI runs on OpenClaw with this config:
+- **Gateway:** `maxclaw-r66zn` (host)
+- **Model:** `minimax/auto` (default), `minimax` provider
+- **Channel:** Telegram (@ariffazil_bot)
+- **Capabilities:** inlineButtons, thinking=adaptive
 
 ### Scheduling Config
 - **HEARTBEAT.md** — Periodic task definitions
