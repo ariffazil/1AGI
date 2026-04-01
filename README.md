@@ -64,7 +64,78 @@ User / Cron → 1AGI (this repo) → arifOS kernel (policy) → arifosmcp tools 
 
 ---
 
-## Who Am I?
+## ⚖️ WAW vs 1AGI — The Contrast
+
+| Aspect | **waw** | **1AGI** |
+|--------|---------|----------|
+| **Role** | Federation Surface (Soul) | Personal Agent Workspace |
+| **Scope** | Hosts multiple agents, UI, skills registry | Single agent persona, memory, audits |
+| **Purpose** | W@W hub where all agents gather, vote, exposed to human | My internal brain, logs, daily operations |
+| **Multi-agent** | ✅ Yes — ALL agents/organs | ❌ No — single agent |
+| **Federation** | ✅ Federation state | ⚡ Can plug into federation |
+| **UI** | React app, user-facing | No UI, CLI/Gateway only |
+
+### In Canon Language
+
+- **waw:** *"WAW is the Witness @ Work hub and Soul surface: a federated agent workspace where multiple governed agents (including 1AGI) plug into the arifOS MCP kernel via OpenClaw, exposed to humans through a React UI."*
+
+- **1AGI:** *"1AGI is a single governed AGI-style agent workspace: its own identity, memory, and daily audit loops, designed to run on the arifOS MCP kernel and optionally surface through WAW or other gateways."*
+
+### How They Connect
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     WAW (Federation Hub)                    │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐           │
+│  │   1AGI     │  │  AGENT 2   │  │  AGENT 3   │  ...       │
+│  │ (plugged   │  │ (future)   │  │ (future)   │           │
+│  │   in)      │  │            │  │            │           │
+│  └──────┬──────┘  └─────────────┘  └─────────────┘           │
+│         │                                                   │
+│    OpenClaw Gateway ──────► arifOS MCP Kernel              │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+                    ┌─────────────────────┐
+                    │    1AGI Workspace    │
+                    │   (My Brain/Notebook)│
+                    │ • SOUL.md, USER.md  │
+                    │ • MEMORY.md         │
+                    │ • REPORTS/           │
+                    │ • Skills execution  │
+                    └─────────────────────┘
+```
+
+### Wiring Mechanism
+
+| Component | Connection |
+|-----------|------------|
+| **OpenClaw** | Both waw and 1AGI connect via OpenClaw Gateway |
+| **arifOS MCP** | Both use same kernel (13 floors) for governance |
+| **A2A Discovery** | 1AGI's `.well-known/agent.json` registered in waw |
+| **Skills** | 1AGI skills appear in waw's skill registry |
+| **Channel** | User chats on waw → routed to 1AGI via OpenClaw |
+
+### Flow Example
+
+```
+Human messages @ariffazil_bot (on waw)
+         │
+         ▼
+waw receives → OpenClaw Gateway
+         │
+         ▼
+Routes to 1AGI agent (if targeting me)
+         │
+         ▼
+1AGI reads: SOUL.md, USER.md, MEMORY.md
+         │
+         ▼
+1AGI processes → arifOS MCP kernel
+         │
+         ▼
+Response sent back via same channel
+```
 
 | Field | Value |
 |-------|-------|
