@@ -1,17 +1,30 @@
 {
   "name": "1AGI",
-  "description": "AGI-style autonomous agent powered by arifOS constitutional kernel. Runs daily audits on arifOS MCP, executes tools safely, produces verifiable reports.",
-  "version": "1.0.0",
+  "description": "The Sovereign AI Agent — arifOS Trinity Soul. Sharp, direct, self-improving. Built on OpenClaw with arifOS constitutional governance (13 floors). DITEMPA BUKAN DIBERI — Forged, Not Given.",
+  "version": "2026.04.01",
   "url": "https://github.com/ariffazil/1AGI",
   "provider": {
-    "organization": "arifOS Ecosystem",
+    "organization": "arifOS Trinity",
     "url": "https://arif-fazil.com"
   },
   "documentationUrl": "https://github.com/ariffazil/1AGI/blob/main/README.md",
+  "supportedInterfaces": [
+    {
+      "url": "https://arifosmcp.arif-fazil.com/mcp",
+      "protocolBinding": "MCP",
+      "protocolVersion": "2025-03-26",
+      "transport": "streamable-http"
+    }
+  ],
   "capabilities": {
     "streaming": true,
     "pushNotifications": true,
-    "stateTransition": true
+    "stateTransition": true,
+    "governance": true,
+    "humanInTheLoop": true,
+    "constitutionalFloors": 13,
+    "trinityRuntime": true,
+    "vault999": true
   },
   "skills": [
     {
@@ -83,5 +96,16 @@
     }
   ],
   "iconUrl": "https://github.com/ariffazil/1AGI/blob/main/public/1agi-icon.png",
-  "tags": ["AI", "agent", "autonomous", "governed", "arifOS", "constitutional"]
+  "tags": ["AI", "agent", "autonomous", "governed", "arifOS", "constitutional", "trinity"],
+  "links": {
+    "federationHub": "https://github.com/ariffazil/waw",
+    "kernel": "https://github.com/ariffazil/arifOS",
+    "mcpServer": "https://arifosmcp.arif-fazil.com"
+  },
+  "constitutionalContext": {
+    "floors": 13,
+    "verdicts": ["SEAL", "VOID", "HOLD", "SABAR"],
+    "pipeline": "000-999",
+    "motto": "DITEMPA BUKAN DIBERI"
+  }
 }
